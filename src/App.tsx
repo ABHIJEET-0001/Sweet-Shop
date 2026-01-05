@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Sweets from "./pages/Sweets";
 import IceCream from "./pages/IceCream";
@@ -35,7 +36,7 @@ const App = () => (
                   <Route path="/icecream" element={<IceCream />} />
                   <Route path="/cakes" element={<Cakes />} />
                   <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="*" element={<NotFound />} />
