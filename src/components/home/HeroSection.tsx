@@ -20,15 +20,15 @@ const HeroSection: React.FC = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 text-primary-foreground text-sm">
             <span className="animate-pulse">✨</span>
-            <span>Since 2005 | 2005 से</span>
+            <span>Since 1990 | 1990 से</span>
           </div>
 
           {/* Main Heading */}
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground leading-tight">
-              Shiv Sweets
+              Shiv Sweets Bhaghat Ji
               <span className="block text-3xl md:text-5xl lg:text-6xl mt-2 text-gold">
-                शिव स्वीट्स
+                शिव स्वीट्स भगत जी
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 font-light">
@@ -38,7 +38,7 @@ const HeroSection: React.FC = () => {
 
           {/* Tagline */}
           <p className="text-lg md:text-xl text-primary-foreground/80 max-w-xl mx-auto">
-            Authentic Rajasthani sweets made with love and tradition. 
+            Authentic Rajasthani sweets made with love and tradition.
             <span className="block mt-1">प्यार और परंपरा से बनी असली राजस्थानी मिठाइयाँ।</span>
           </p>
 
@@ -58,6 +58,12 @@ const HeroSection: React.FC = () => {
             </Link>
           </div>
         </div>
+
+          {/* Hero Image */}
+          <div className="absolute inset-0 opacity-90 -z-10">
+            <img src="/src/assets/products/designer-birthday-cake.jpg" alt="Shiv Sweets hero" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.45)]" />
+          </div>
       </div>
 
       {/* Wave Decoration */}
