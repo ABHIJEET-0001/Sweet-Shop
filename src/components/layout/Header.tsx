@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, Heart, User, LogOut } from 'lucide-react';
+import { ShoppingCart, Menu, X, Phone, Heart, User, LogOut, Sun, Moon } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -12,6 +13,9 @@ const Header: React.FC = () => {
   const { totalItems } = useCart();
   const { totalItems: wishlistItems } = useWishlist();
   const { user, signOut } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,10 +35,10 @@ const Header: React.FC = () => {
         <div className="hidden md:flex items-center justify-between py-2 border-b border-border text-sm">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Phone className="h-4 w-4 text-primary" />
-            <span>+91 98765 43210</span>
+            <span>+91 92510 22024</span>
           </div>
           <div className="text-muted-foreground">
-            📍 Nasirabad, Rajasthan | नासिराबाद, राजस्थान
+            📍 186, Sadar Bazar, Main Market, Nasirabad, Rajasthan 305601
           </div>
         </div>
 
@@ -43,10 +47,10 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex flex-col">
             <span className="text-2xl md:text-3xl font-display font-bold text-primary">
-              Shiv Sweets
+              Shiv Sweets Bhaghat Ji
             </span>
             <span className="text-lg md:text-xl font-display text-secondary">
-              शिव स्वीट्स
+              शिव स्वीट्स भगत जी • Since 1990
             </span>
           </Link>
 
@@ -74,6 +78,18 @@ const Header: React.FC = () => {
 
           {/* Wishlist, Cart, Auth & Mobile Menu */}
           <div className="flex items-center gap-2">
+            {/* Theme toggle */}
+            <button
+              aria-label="Toggle theme"
+              onClick={() => {
+                if (!mounted) return;
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+              }}
+              className="p-2 rounded-md hover:bg-muted/10"
+            >
+              {mounted && (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />)}
+            </button>
+
             <Link to="/wishlist">
               <Button variant="ghost" size="icon" className="relative">
                 <Heart className="h-6 w-6" />
