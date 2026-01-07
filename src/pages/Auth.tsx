@@ -117,7 +117,7 @@ const Auth = () => {
         } else {
           toast({
             title: "Account Created!",
-            description: "Welcome to Mithai Mandir. Start exploring our sweets!",
+            description: "Welcome to Shiv Sweets Bhaghat Ji. Start exploring our sweets!",
           });
         }
       }
@@ -165,22 +165,22 @@ const Auth = () => {
   return (
     <>
       <Helmet>
-        <title>{isLogin ? 'Login' : 'Sign Up'} - Mithai Mandir</title>
-        <meta name="description" content="Login or create an account at Mithai Mandir to order delicious sweets, ice cream, and cakes." />
+            <title>{isLogin ? 'Login' : 'Sign Up'} - Shiv Sweets Bhaghat Ji</title>
+            <meta name="description" content="Login or create an account at Shiv Sweets Bhaghat Ji to order sweets, ice cream, and cakes." />
       </Helmet>
 
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/10 p-4">
         <div className="w-full max-w-md">
           {/* Logo / Brand */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary">मिठाई मंदिर</h1>
-            <p className="text-muted-foreground mt-2">Mithai Mandir</p>
-          </div>
+              <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-primary">SHIV SWEET</h1>
+                <p className="text-muted-foreground mt-2">शिव स्वीट्स भगत जी</p>
+              </div>
 
           {/* Auth Card */}
           <div className="bg-card rounded-2xl shadow-xl p-8 border border-border/50">
             <h2 className="text-2xl font-semibold text-center mb-6">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
+                  {isLogin ? 'Welcome Back' : 'Create Your Account'}
             </h2>
 
             {/* Google Sign-in */}
