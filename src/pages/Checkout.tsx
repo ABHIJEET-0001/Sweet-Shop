@@ -50,7 +50,7 @@ const Checkout: React.FC = () => {
 
     const message = `🛒 *New Order from Shiv Sweets Website*\n\n*Customer:* ${formData.name}\n*Mobile:* ${formData.mobile}\n*Address:* ${formData.address}\n\n*Order Details:*\n${orderDetails}\n\n*Total:* ₹${totalPrice}\n*Payment:* ${paymentMethod === 'upi' ? 'UPI' : 'Cash on Delivery'}`;
 
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919251022024?text=${encodeURIComponent(message)}`;
 
     clearCart();
     toast.success('Order placed successfully! | ऑर्डर सफलतापूर्वक प्लेस हुआ!');
