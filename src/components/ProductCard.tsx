@@ -50,7 +50,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div 
-      className="group bg-card rounded-xl overflow-hidden shadow-soft transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+      data-cursor="sweet"
+      className="group bg-card rounded-xl overflow-hidden shadow-soft transition-all duration-500 hover:-translate-y-2 hover:shadow-xl cursor-sweet"
       style={{ 
         transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
       }}
