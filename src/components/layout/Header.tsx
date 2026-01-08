@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, Heart, User, LogOut, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Menu, X, Phone, Heart, User, LogOut, Sun, Moon, Settings } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
@@ -18,6 +18,9 @@ const Header: React.FC = () => {
   useEffect(() => setMounted(true), []);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Check if user is admin
+  const isAdmin = user?.email === 'admin@shivsweets.com';
 
   const navLinks = [
     { href: '/', label: 'Home', labelHindi: 'होम' },
@@ -111,6 +114,20 @@ const Header: React.FC = () => {
               </Button>
             </Link>
 
+            {/* Admin Button - Only show for admin user */}
+            {isAdmin && (
+              <Button 
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/admin')}
+                title="Admin Dashboard"
+                className="flex items-center gap-2 bg-primary/10 border-primary/30 hover:bg-primary/20"
+              >
+                <Settings className="h-4 w-4" />
+                <span className="hidden sm:inline text-sm font-medium">Admin</span>
+              </Button>
+            )}
+
             {/* Auth Button */}
             {user ? (
               <Button 
@@ -166,6 +183,22 @@ const Header: React.FC = () => {
                   <span className="text-sm text-muted-foreground">{link.labelHindi}</span>
                 </Link>
               ))}
+              
+              {/* Mobile Admin Link */}
+              {isAdmin && (
+                <button
+                  onClick={() => {
+                    navigate('/admin');
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center justify-between py-2 px-4 rounded-lg transition-all text-foreground hover:bg-primary/10 hover:text-primary"
+                >
+                  <span className="font-medium flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Admin Dashboard
+                  </span>
+                </button>
+              )}
             </div>
           </nav>
         )}
