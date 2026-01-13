@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Edit2, Trash2, Save, X } from 'lucide-react';
+import { fetchProducts, addProduct as sbAddProduct, updateProduct as sbUpdateProduct, deleteProduct as sbDeleteProduct } from '@/services/supabase/products';
 
 interface Product {
   id: string;
@@ -23,18 +24,22 @@ const AdminProducts = () => {
   const [editPrice, setEditPrice] = useState<number>(0);
 
   useEffect(() => {
-    // Mock data - in production, fetch from Supabase
-    const mockProducts: Product[] = [
-      { id: 'sweet-1', name: 'Rasgulla', nameHindi: 'रसगुल्ला', price: 40, category: 'sweets' },
-      { id: 'sweet-2', name: 'Gulab Jamun', nameHindi: 'गुलाब जामुन', price: 35, category: 'sweets' },
-      { id: 'sweet-3', name: 'Kaju Katli', nameHindi: 'काजू कतली', price: 800, category: 'sweets' },
-      { id: 'ice-1', name: 'Vanilla', nameHindi: 'वनीला', price: 60, category: 'icecream' },
-      { id: 'ice-2', name: 'Chocolate', nameHindi: 'चॉकलेट', price: 70, category: 'icecream' },
-      { id: 'cake-1', name: 'Chocolate Cake', nameHindi: 'चॉकलेट केक', price: 600, category: 'cakes' },
-      { id: 'cake-2', name: 'Vanilla Cake', nameHindi: 'वनीला केक', price: 550, category: 'cakes' },
-    ];
-    setProducts(mockProducts);
-    setFilteredProducts(mockProducts);
+    // Load products from Supabase
+    let mounted = true;
+    (async () => {
+      try {
+        const data = await fetchProducts();
+        if (!mounted) return;
+        setProducts(data ?? []);
+        setFilteredProducts(data ?? []);
+      } catch (err) {
+        console.error('Failed to fetch products', err);
+        // fall back to empty list
+        setProducts([]);
+        setFilteredProducts([]);
+      }
+    })();
+    return () => { mounted = false };
   }, []);
 
   useEffect(() => {
@@ -57,10 +62,16 @@ const AdminProducts = () => {
   };
 
   const handleSavePrice = (id: string) => {
-    setProducts(
-      products.map((p) => (p.id === id ? { ...p, price: editPrice } : p))
-    );
-    setEditingId(null);
+    (async () => {
+      try {
+        const updated = await sbUpdateProduct(id, { price: editPrice } as any);
+        setProducts(products.map((p) => (p.id === id ? updated : p)));
+        setEditingId(null);
+      } catch (err) {
+        console.error('Failed to update product', err);
+        alert('Failed to update product price');
+      }
+    })();
   };
 
   const handleCancel = () => {
@@ -69,7 +80,39 @@ const AdminProducts = () => {
 
   const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to delete this product?')) {
-      setProducts(products.filter((p) => p.id !== id));
+      (async () => {
+        try {
+          await sbDeleteProduct(id);
+          setProducts(products.filter((p) => p.id !== id));
+        } catch (err) {
+          console.error('Failed to delete product', err);
+          alert('Failed to delete product');
+        }
+      })();
+    }
+  };
+
+  const handleAddProductClick = async () => {
+    const name = prompt('Product name (English)');
+    if (!name) return;
+    const nameHindi = prompt('Product name (Hindi)') || name;
+    const priceStr = prompt('Price (number)');
+    const price = Number(priceStr);
+    if (isNaN(price) || price <= 0) {
+      alert('Invalid price');
+      return;
+    }
+    const category = prompt('Category: sweets | icecream | cakes', 'sweets') as 'sweets' | 'icecream' | 'cakes';
+    if (!['sweets', 'icecream', 'cakes'].includes(category)) {
+      alert('Invalid category');
+      return;
+    }
+    try {
+      const created = await sbAddProduct({ name, nameHindi, price, category } as any);
+      setProducts([...products, created]);
+    } catch (err) {
+      console.error('Failed to add product', err);
+      alert('Failed to add product');
     }
   };
 
@@ -118,7 +161,7 @@ const AdminProducts = () => {
             </Select>
           </div>
           <div className="flex items-end">
-            <Button className="w-full">+ Add Product</Button>
+            <Button className="w-full" onClick={handleAddProductClick}>+ Add Product</Button>
           </div>
         </div>
       </div>
