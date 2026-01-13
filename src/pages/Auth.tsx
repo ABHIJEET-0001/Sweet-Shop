@@ -36,6 +36,7 @@ const Auth = () => {
   
   const { signIn, signUp, signInWithGoogle, user, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -135,8 +136,10 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
+    console.log('Starting Google sign-in');
     try {
       const { error } = await signInWithGoogle();
+      console.log('signInWithGoogle returned', { error });
       if (error) {
         toast({
           title: "Google Sign-in Failed",
@@ -150,6 +153,7 @@ const Auth = () => {
         description: "Something went wrong with Google sign-in.",
         variant: "destructive",
       });
+      console.error('Google sign-in exception:', err);
     } finally {
       setIsGoogleLoading(false);
     }
